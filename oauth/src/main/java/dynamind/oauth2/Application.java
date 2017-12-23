@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.context.web.SpringBootServletInitializer;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -53,6 +54,7 @@ public class Application extends SpringBootServletInitializer {
         @Override
         @Autowired // <-- This is crucial otherwise Spring Boot creates its own
         protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+
             log.info("Defining inMemoryAuthentication (2 users)");
             auth
                     .inMemoryAuthentication()
@@ -144,6 +146,7 @@ public class Application extends SpringBootServletInitializer {
 
         @Override
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
+
             clients.inMemory()
 
                     // Confidential client where client secret can be kept safe (e.g. server side)
